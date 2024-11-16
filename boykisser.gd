@@ -3,13 +3,24 @@ extends Node
 var drag_offset : Vector2
 var dragging := false
 var kisses := 0
+var music := false
 
 
 func _process(delta):
 	if dragging == true:
 		get_window().position += Vector2i(get_window().get_mouse_position() - drag_offset)
 
+func _on_music_button_pressed():
+	music = !music
+	if music == false:
+		$Control/MusicButton.texture_normal = load("res://2d-assets/ui-buttons/music-off.png")
+		$SongPlayer.stop()
+	else:
+		$Control/MusicButton.texture_normal = load("res://2d-assets/ui-buttons/music.png")
+		$SongPlayer.play()
+	
 func _on_kiss_button_pressed():
+	$MeowPlayer.play()
 	$Boykisser.frame = 0
 	$Boykisser.play("happy")
 	kisses += 1
@@ -34,3 +45,12 @@ func _on_close_button_pressed():
 func _on_boykisser_animation_finished():
 	if $Boykisser.animation == "byebye":
 		get_tree().quit()
+
+func _on_song_player_finished():
+	if music == true:
+		$SongPlayer.play()
+
+func _on_meow_player_finished():
+	var n = (randi() % 4) + 1
+	print("Next meow." + str(n) + ".mp3")
+	$MeowPlayer.stream = load("res://audio-assets/meow." + str(n) + ".mp3")

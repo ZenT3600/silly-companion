@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cby38cidedwmu"]
+[gd_scene load_steps=36 format=3 uid="uid://cby38cidedwmu"]
 
 [ext_resource type="Texture2D" uid="uid://1i86gkfbrhb5" path="res://2d-assets/boykiss-animated/frame_0_delay-0.16s.png" id="1_1djpy"]
 [ext_resource type="Script" path="res://boykisser.gd" id="1_mjbx4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://7b085q3faqlo" path="res://2d-assets/boykiss-animated/frame_4_delay-0.1s.png" id="5_8wfhx"]
 [ext_resource type="Texture2D" uid="uid://dadg1brt87746" path="res://2d-assets/boykiss-animated/frame_5_delay-0.11s.png" id="6_a2af2"]
 [ext_resource type="Texture2D" uid="uid://dmjrhvai847bi" path="res://2d-assets/boykiss-animated/frame_6_delay-0.16s.png" id="7_3ijkt"]
+[ext_resource type="Texture2D" uid="uid://cy4mhdulvmy0h" path="res://2d-assets/ui-buttons/music-off.png" id="7_n1yys"]
 [ext_resource type="Texture2D" uid="uid://0xjlno8kgenc" path="res://2d-assets/boykiss-animated/frame_7_delay-0.1s.png" id="8_6muys"]
 [ext_resource type="Texture2D" uid="uid://drwaen4ejtmpd" path="res://2d-assets/boykiss-animated/frame_8_delay-0.19s.png" id="9_t7hem"]
 [ext_resource type="Texture2D" uid="uid://bvtti468l7172" path="res://2d-assets/kiss-button/button-press.png" id="12_r3d3v"]
@@ -29,7 +30,9 @@
 [ext_resource type="Texture2D" uid="uid://bvcjnvv3kq8hb" path="res://2d-assets/boydie-animated/frame_23_delay-0.05s.jpg" id="30_6mjd2"]
 [ext_resource type="Texture2D" uid="uid://ndd1qrxq5voi" path="res://2d-assets/boydie-animated/frame_24_delay-0.05s.jpg" id="31_uffrx"]
 [ext_resource type="Texture2D" uid="uid://qpri6t3qeaun" path="res://2d-assets/boydie-animated/frame_25_delay-0.05s.jpg" id="32_hynly"]
+[ext_resource type="AudioStream" uid="uid://nlyhkj7upasy" path="res://audio-assets/song.mp3" id="33_0mwf0"]
 [ext_resource type="Texture2D" uid="uid://fbd4fnu8rsys" path="res://2d-assets/boydie-animated/frame_26_delay-0.05s.jpg" id="33_ut2kb"]
+[ext_resource type="AudioStream" uid="uid://70bourkoryt5" path="res://audio-assets/meow.1.mp3" id="34_5cx6v"]
 [ext_resource type="Texture2D" uid="uid://b18v7j462btn7" path="res://2d-assets/boydie-animated/frame_27_delay-0.05s.jpg" id="34_6a1s7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mch2a"]
@@ -135,8 +138,8 @@ anchor_top = 0.76
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 35.0
-offset_top = -0.279999
-offset_right = -35.0
+offset_top = -0.559998
+offset_right = -73.0
 grow_horizontal = 2
 grow_vertical = 0
 texture_normal = ExtResource("2_nxsoq")
@@ -152,9 +155,9 @@ anchor_left = 1.0
 anchor_top = 0.76
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -53.0
+offset_left = -90.0
 offset_top = 10.44
-offset_right = -4.0
+offset_right = -41.0
 offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -167,12 +170,29 @@ layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.758
 anchor_bottom = 1.0
-offset_left = 3.0
+offset_left = 5.0
 offset_top = 10.952
-offset_right = 50.0
+offset_right = 52.0
 offset_bottom = -4.0
 grow_vertical = 0
 texture_normal = ExtResource("15_fl56t")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MusicButton" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.76
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -36.0
+offset_top = 16.44
+offset_right = -3.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("7_n1yys")
 ignore_texture_size = true
 stretch_mode = 5
 
@@ -203,8 +223,19 @@ angle_max = 31.2
 scale_amount_min = 0.4
 scale_amount_max = 0.6
 
+[node name="SongPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("33_0mwf0")
+volume_db = -18.0
+
+[node name="MeowPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("34_5cx6v")
+volume_db = -10.0
+
 [connection signal="pressed" from="Control/KissButton" to="." method="_on_kiss_button_pressed"]
 [connection signal="pressed" from="Control/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="button_down" from="Control/MoveButton" to="." method="_on_move_button_button_down"]
 [connection signal="button_up" from="Control/MoveButton" to="." method="_on_move_button_button_up"]
+[connection signal="pressed" from="Control/MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="animation_finished" from="Boykisser" to="." method="_on_boykisser_animation_finished"]
+[connection signal="finished" from="SongPlayer" to="." method="_on_song_player_finished"]
+[connection signal="finished" from="MeowPlayer" to="." method="_on_meow_player_finished"]
