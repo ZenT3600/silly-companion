@@ -52,5 +52,4 @@ func _on_song_player_finished():
 
 func _on_meow_player_finished():
 	var n = (randi() % 4) + 1
-	print("Next meow." + str(n) + ".mp3")
 	$MeowPlayer.stream = load("res://audio-assets/meow." + str(n) + ".mp3")
